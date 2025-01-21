@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$TFAI</title>
+    <link rel="icon" href="static/ft.jpg" type="image/jpeg">
+    <style>
+        @font-face {
+            font-family: 'Wimzik';
+            src: url('static/Wimzik.otf') format('opentype');
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: radial-gradient(circle, rgba(0, 0, 64, 0.9) 0%, rgba(0, 0, 128, 0.8) 40%, rgba(0, 0, 64, 0.9) 80%);
+            overflow-y: auto;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.4) 10%, transparent 70%);
+            animation: dance 3s infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes dance {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .headline {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .image {
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .glow-button {
+            margin: 20px auto;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #007bff, #0056b3);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 10px #00aaff;
+            animation: glow-pulse 3s infinite;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.5), transparent);
+            border-radius: 50%;
+            filter: blur(30px);
+            z-index: -1;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px #007bff, 0 0 40px #0056b3;
+            }
+            50% {
+                box-shadow: 0 0 30px #00aaff, 0 0 60px #007bff;
+            }
+        }
+
+        @keyframes pulse-border {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        .banner {
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        .social-buttons a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .social-buttons a:hover {
+            background-color: #555;
+        }
+
+        .output-container {
+            margin: 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            font-family: 'Wimzik', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="headline">Trump Fortune AI</h1>
+
+    <img src="static/ft.jpg" alt="Trump Fortune Logo" class="image">
+
+    <button class="glow-button" id="know-future">Know Your Future</button>
+
+    <div id="output" class="output-container"></div>
+
+    <img src="static/banner.jpg" alt="Banner" class="banner">
+
+    <div class="social-buttons">
+        <a href="https://x.com" target="_blank" title="Twitter">X</a>
+        <a href="https://t.me" target="_blank" title="Telegram">TG</a>
+    </div>
+
+    <script>
+        document.getElementById('know-future').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/random_joke');
+                const data = await response.json();
+
+                const output = document.getElementById('output');
+                if (data.joke) {
+                    output.textContent = data.joke;
+                } else {
+                    output.textContent = 'Error: Unable to fetch your fortune. Please try again later.';
+                }
+            } catch (error) {
+                console.error('Error fetching joke:', error);
+                document.getElementById('output').textContent = 'An unexpected error occurred. Please try again later.';
+            }
+        });
+    </script>
+</body>
+</html>
